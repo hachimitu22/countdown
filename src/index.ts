@@ -1,2 +1,3 @@
-let message: string = 'Hello, World!!';
-console.log(message);
+
+const countdown = new Countdown();
+countdown.execute();
