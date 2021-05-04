@@ -1,6 +1,16 @@
-class Sound implements ISound {
-  constructor(){}
-  play(path: string): void {
+import player from 'node-wav-player';
+import ISound from './ISound';
 
+export default class Sound implements ISound {
+  private directory: string;
+  constructor(directory: string) {
+    this.directory = directory;
+    if (directory.charAt(directory.length - 1) !== '/') {
+      this.directory += '/';
+    }
+  }
+  play(filename: string): void {
+    const path: string = this.directory + filename;
+    player.play(path);
   }
 }

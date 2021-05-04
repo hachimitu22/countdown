@@ -1,4 +1,6 @@
-class Timer implements ITimer {
+import ITimer from './ITimer';
+
+export default class Timer implements ITimer {
   constructor() { }
   wait(sec: number): void {
     const startSec = (new Date()).getSeconds();
