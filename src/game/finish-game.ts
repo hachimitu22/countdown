@@ -12,8 +12,8 @@ export default class FinishGame extends BaseGame {
   ) {
     super(timer, random, sound);
   }
-  play(): void {
-    this.sound.play(`0.wav`);
+  play(): Promise<void> {
+    return this.sound.play(`0.wav`).then(() => Promise.resolve());
   }
   next(): IGame {
     return this;

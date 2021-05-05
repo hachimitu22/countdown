@@ -13,8 +13,13 @@ export default class StopGame extends BaseGame {
   ) {
     super(timer, random, sound);
   }
-  play(): void {
-    this.sound.play(`stop.wav`);
+  play(): Promise<void> {
+    return this.sound.play(`stop.wav`)
+      .then(() => {
+        const waitSec = this.random.lot(5, 10);
+        this.timer.wait(waitSec);
+        return Promise.resolve();
+      });
   }
   next(): IGame {
     return new NormalGame(10, this.timer, this.random, this.sound);

@@ -9,7 +9,7 @@ export default abstract class BaseGame implements IGame {
     protected random: IRandom,
     protected sound: ISound,
   ) { }
-  abstract play(): void;
+  abstract play(): Promise<void>;
   abstract next(): IGame;
   abstract isFinish(): boolean;
 }

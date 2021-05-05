@@ -17,10 +17,13 @@ export default class SpurtGame extends BaseGame {
     super(timer, random, sound);
     this.current = initialCount;
   }
-  play(): void {
-    const waitSec = this.random.lot(1, 5);
-    this.timer.wait(waitSec);
-    this.sound.play(`0${this.current}.wav`);
+  play(): Promise<void> {
+    return this.sound.play(`0${this.current}.wav`)
+      .then(() => {
+        const waitSec = this.random.lot(1, 5);
+        this.timer.wait(waitSec);
+        return Promise.resolve();
+      });
   }
   next(): IGame {
     if (this.current > 0) this.current--;

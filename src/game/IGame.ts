@@ -1,5 +1,5 @@
 export default interface IGame {
-  play(): void;
+  play(): Promise<void>;
   next(): IGame;
   isFinish(): boolean;
 }
