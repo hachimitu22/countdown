@@ -16,7 +16,7 @@ describe('Sound', () => {
       sound.play('1.wav'),
       sound.play('2.wav'),
     ])
-      .then(done)
+      .then(() => done())
       .catch(done);
   }).timeout(5000);
 
