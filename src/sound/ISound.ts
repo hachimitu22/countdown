@@ -1,3 +1,3 @@
 export default interface ISound {
-  play(path: string): void;
+  play(path: string): Promise<void>;
 }

@@ -9,8 +9,10 @@ export default class Sound implements ISound {
       this.directory += '/';
     }
   }
-  play(filename: string): void {
+  play(filename: string): Promise<void> {
     const path: string = this.directory + filename;
-    player.play(path);
+    return player.play({
+      path: path,
+    });
   }
 }
