@@ -13,4 +13,7 @@ export default class FixRandom implements IRandom {
       throw new Error('FixRandom::lot over index.');
     }
   }
+  add(value: number): void {
+    this.fixValues.push(value);
+  }
 }
