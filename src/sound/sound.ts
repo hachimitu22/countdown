@@ -13,6 +13,7 @@ export default class Sound implements ISound {
     const path: string = this.directory + filename;
     return player.play({
       path: path,
+      sync: true,
     });
   }
 }
