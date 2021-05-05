@@ -11,13 +11,18 @@ export default class Countdown {
       10,
       new Timer(),
       new Random(),
-      new Sound('../voice/'),
+      new Sound('./voice/'),
     );
   }
-  execute(): void {
-    while (!this.game.isFinish()) {
-      this.game.play();
-      this.game = this.game.next();
+  async execute(): Promise<void> {
+    try {
+      while (!this.game.isFinish()) {
+        await this.game.play();
+        this.game = this.game.next();
+      }
+      return Promise.resolve();
+    } catch (err) {
+      return Promise.reject(err);
     }
   }
 }
