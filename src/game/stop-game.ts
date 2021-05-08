@@ -18,13 +18,12 @@ export default class StopGame extends BaseGame {
       .then(() => {
         const waitSec = this.random.lot(5, 10);
         this.timer.wait(waitSec);
+        this.cleared = true;
+
         return Promise.resolve();
       });
   }
-  next(): IGame {
-    return new NormalGame(10, this.timer, this.random, this.sound);
-  }
-  isFinish(): boolean {
-    return false;
+  isClear(): boolean {
+    return this.cleared;
   }
 }

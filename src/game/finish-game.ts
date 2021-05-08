@@ -13,12 +13,13 @@ export default class FinishGame extends BaseGame {
     super(timer, random, sound);
   }
   play(): Promise<void> {
-    return this.sound.play(`0.wav`).then(() => Promise.resolve());
+    return this.sound.play(`0.wav`).then(() => {
+      this.cleared = true;
+
+      return Promise.resolve();
+    });
   }
-  next(): IGame {
-    return this;
-  }
-  isFinish(): boolean {
-    return true;
+  isClear(): boolean {
+    return this.cleared;
   }
 }
