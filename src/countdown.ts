@@ -1,17 +1,21 @@
 import IGame from './game/IGame';
-import Timer from './timer/timer';
-import Random from './random/random';
-import Sound from './sound/sound';
 import GameFlow from './flow/game-flow';
+import ITimer from './timer/ITimer';
+import IRandom from './random/IRandom';
+import ISound from './sound/ISound';
 
 export default class Countdown {
-  constructor() { }
+  constructor(
+    private timer: ITimer,
+    private random: IRandom,
+    private sound: ISound
+  ) { }
   async execute(): Promise<void> {
     try {
       const flow: GameFlow = new GameFlow(
-        new Timer(),
-        new Random(),
-        new Sound('./voice/'),
+        this.timer,
+        this.random,
+        this.sound,
       );
       let game: IGame = flow.firstGame();
 
