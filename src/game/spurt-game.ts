@@ -22,24 +22,14 @@ export default class SpurtGame extends BaseGame {
       .then(() => {
         const waitSec = this.random.lot(1, 5);
         this.timer.wait(waitSec);
+
+        if (this.current > 0) this.current--;
+        this.cleared = this.current <= 0;
+
         return Promise.resolve();
       });
   }
-  next(): IGame {
-    if (this.current > 0) this.current--;
-
-    if (this.current > 0) {
-      return this;
-    }
-
-    const value: number = this.random.lot(0, 99);
-    if(value < 90) {
-      return new NormalGame(10, this.timer, this.random, this.sound);
-    } else {
-      return new FinishGame(this.timer, this.random, this.sound);
-    }
-  }
-  isFinish(): boolean {
-    return false;
+  isClear(): boolean {
+    return this.cleared;
   }
 }
