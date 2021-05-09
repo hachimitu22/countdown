@@ -1,9 +1,9 @@
-import IGame from './IGame';
+import IChapter from './IChapter';
 import ITimer from '../timer/ITimer';
 import IRandom from '../random/IRandom';
 import ISound from '../sound/ISound';
 
-export default abstract class BaseGame implements IGame {
+export default abstract class BaseChapter implements IChapter {
   protected cleared: boolean = false;
   constructor(
     protected timer: ITimer,

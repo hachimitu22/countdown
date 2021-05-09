@@ -1,15 +1,15 @@
 import * as chai from 'chai';
-import NormalGame from '../src/game/normal-game';
+import NormalChapter from '../src/chapter/normal-chapter';
 import NotTimer from './not-timer';
 import FixRandom from './fix-random';
 import NotSound from './not-sound';
 
-describe('NormalGame', () => {
+describe('NormalChanter', () => {
   it('10から0までカウントダウンするとクリアとなる', async () => {
     const timer :NotTimer = new NotTimer();
     const random :FixRandom = new FixRandom([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     const sound :NotSound = new NotSound();
-    const game = new NormalGame(10, timer, random, sound);
+    const game = new NormalChapter(10, timer, random, sound);
 
     chai.expect(game.isClear()).to.equal(false);
 

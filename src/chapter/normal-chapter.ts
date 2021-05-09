@@ -1,13 +1,9 @@
-import IGame from './IGame';
-import BaseGame from './base-game';
-import StopGame from './stop-game';
-import SpurtGame from './spurt-game';
-import FinishGame from './finish-game';
+import BaseChapter from './base-chapter';
 import ITimer from '../timer/ITimer';
 import IRandom from '../random/IRandom';
 import ISound from '../sound/ISound';
 
-export default class NormalGame extends BaseGame {
+export default class NormalChapter extends BaseChapter {
   private current: number;
   constructor(
     initialCount: number,

@@ -1,4 +1,4 @@
-export default interface IGame {
+export default interface IChapter {
   play(): Promise<void>;
   isClear(): boolean;
 }
