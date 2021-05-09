@@ -1,6 +1,4 @@
-import IChapter from './IChapter';
 import BaseChapter from './base-chapter';
-import NormalChapter from './normal-chapter';
 import ITimer from '../timer/ITimer';
 import IRandom from '../random/IRandom';
 import ISound from '../sound/ISound';

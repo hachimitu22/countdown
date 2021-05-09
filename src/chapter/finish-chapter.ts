@@ -1,4 +1,3 @@
-import IChapter from './IChapter';
 import BaseChapter from './base-chapter';
 import ITimer from '../timer/ITimer';
 import IRandom from '../random/IRandom';
