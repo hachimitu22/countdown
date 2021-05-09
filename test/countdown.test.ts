@@ -18,8 +18,9 @@ describe('Countdown', () => {
 
     try {
       await countdown.execute();
+      chai.assert.ok(true);
     } catch (err) {
-      throw err;
+      chai.assert.fail();
     }
   });
 });
