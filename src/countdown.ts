@@ -1,4 +1,4 @@
-import IGame from './game/IGame';
+import IChapter from './chapter/IChapter';
 import GameFlow from './flow/game-flow';
 import ITimer from './timer/ITimer';
 import IRandom from './random/IRandom';
@@ -17,11 +17,11 @@ export default class Countdown {
         this.random,
         this.sound,
       );
-      let game: IGame = flow.firstGame();
+      let game: IChapter = flow.firstChapter();
 
       while (!flow.isFinish()) {
         await game.play();
-        game = flow.nextGame(game);
+        game = flow.nextChapter(game);
       }
       return Promise.resolve();
     } catch (err) {

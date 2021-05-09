@@ -1,13 +1,12 @@
-import IGame from './IGame';
-import BaseGame from './base-game';
-import StopGame from './stop-game';
-import SpurtGame from './spurt-game';
-import FinishGame from './finish-game';
+import IChapter from './IChapter';
+import BaseChapter from './base-chapter';
+import NormalChapter from './normal-chapter';
+import FinishChapter from './finish-chapter';
 import ITimer from '../timer/ITimer';
 import IRandom from '../random/IRandom';
 import ISound from '../sound/ISound';
 
-export default class NormalGame extends BaseGame {
+export default class SpurtChapter extends BaseChapter {
   private current: number;
   constructor(
     initialCount: number,
@@ -19,7 +18,7 @@ export default class NormalGame extends BaseGame {
     this.current = initialCount;
   }
   play(): Promise<void> {
-    return this.sound.play(`${this.current}.wav`)
+    return this.sound.play(`0${this.current}.wav`)
       .then(() => {
         const waitSec = this.random.lot(1, 5);
         this.timer.wait(waitSec);

@@ -1,11 +1,11 @@
-import IGame from './IGame';
-import BaseGame from './base-game';
-import NormalGame from './normal-game';
+import IChapter from './IChapter';
+import BaseChapter from './base-chapter';
+import NormalChapter from './normal-chapter';
 import ITimer from '../timer/ITimer';
 import IRandom from '../random/IRandom';
 import ISound from '../sound/ISound';
 
-export default class StopGame extends BaseGame {
+export default class StopChapter extends BaseChapter {
   constructor(
     timer: ITimer,
     random: IRandom,

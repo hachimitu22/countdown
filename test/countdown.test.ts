@@ -4,7 +4,7 @@ import FixRandom from './fix-random';
 import NotSound from './not-sound';
 import NotTimer from './not-timer';
 
-describe.only('Countdown', () => {
+describe('Countdown', () => {
   it('ゲームが実行完了する', async () => {
     const randValues: number[] = (new Array(100)).fill(100);
     const timer: NotTimer = new NotTimer();
