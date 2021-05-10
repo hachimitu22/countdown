@@ -14,7 +14,7 @@ export default class StopChapter extends BaseChapter {
   play(): Promise<void> {
     return this.sound.play(`stop.wav`)
       .then(() => {
-        const waitSec = this.random.lot(5, 10);
+        const waitSec = this.random.lot(3, 8);
         this.timer.wait(waitSec);
         this.cleared = true;
 

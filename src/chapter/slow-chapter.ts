@@ -17,7 +17,7 @@ export default class SlowChapter extends BaseChapter {
   play(): Promise<void> {
     return this.sound.play(`${this.current}.wav`)
       .then(() => {
-        const waitSec = this.random.lot(6, 10);
+        const waitSec = this.random.lot(10, 20);
         this.timer.wait(waitSec);
 
         if (this.current > 0) this.current--;

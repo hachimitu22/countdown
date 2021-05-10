@@ -17,7 +17,7 @@ export default class SpurtChapter extends BaseChapter {
   play(): Promise<void> {
     return this.sound.play(`0${this.current}.wav`)
       .then(() => {
-        const waitSec = this.random.lot(1, 5);
+        const waitSec = this.random.lot(5, 10);
         this.timer.wait(waitSec);
 
         if (this.current > 0) this.current--;

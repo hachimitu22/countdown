@@ -17,6 +17,8 @@ export default class FastChapter extends BaseChapter {
   play(): Promise<void> {
     return this.sound.play(`${this.current}.wav`)
       .then(() => {
+        this.timer.wait(1);
+
         if (this.current > 0) this.current--;
         this.cleared = this.current <= 0;
 
