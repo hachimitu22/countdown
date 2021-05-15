@@ -38,4 +38,11 @@ export default class Countdown {
     this.surrendered = true;
     this.chapter.stop();
   }
+  gameOver(): void {
+    if(this.surrendered){
+      this.sound.play('fail.wav');
+    } else {
+      this.sound.play('finish.wav');
+    }
+  }
 }

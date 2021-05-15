@@ -11,7 +11,12 @@ const countdown = new Countdown(
 );
 const input = readline.createInterface(process.stdin, process.stdout);
 
+const start = Date.now();
+
 countdown.execute()
+  .then(() => {
+    countdown.gameOver();
+  })
   .catch(err => {
     console.log(err);
   })
