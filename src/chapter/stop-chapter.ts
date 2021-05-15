@@ -15,11 +15,17 @@ export default class StopChapter extends BaseChapter {
     return this.sound.play(`stop.wav`)
       .then(() => {
         const waitSec = this.random.lot(10, 15);
-        this.timer.wait(waitSec);
+        return this.timer.wait(waitSec);
+      })
+      .then(() => {
         this.cleared = true;
 
         return Promise.resolve();
       });
+  }
+  stop(): void {
+    this.sound.stop();
+    this.timer.stop();
   }
   isClear(): boolean {
     return this.cleared;

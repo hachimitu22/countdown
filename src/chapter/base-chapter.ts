@@ -11,5 +11,6 @@ export default abstract class BaseChapter implements IChapter {
     protected sound: ISound,
   ) { }
   abstract play(): Promise<void>;
+  abstract stop(): void;
   abstract isClear(): boolean;
 }
