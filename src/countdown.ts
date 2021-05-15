@@ -3,7 +3,7 @@ import GameFlow from './flow/game-flow';
 import ITimer from './timer/ITimer';
 import IRandom from './random/IRandom';
 import ISound from './sound/ISound';
-import { chapterRatioMap } from './ratio/chapter-ratio-map'
+import { chapterRatioMap } from './ratio/chapter-ratio-map';
 
 export default class Countdown {
   private surrendered: boolean = false;
