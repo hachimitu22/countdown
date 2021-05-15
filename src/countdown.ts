@@ -6,6 +6,7 @@ import ISound from './sound/ISound';
 import { chapterRatioMap } from './ratio/chapter-ratio-map'
 
 export default class Countdown {
+  private surrendered: boolean = false;
   constructor(
     private timer: ITimer,
     private random: IRandom,
@@ -21,7 +22,7 @@ export default class Countdown {
       );
       let game: IChapter = flow.firstChapter();
 
-      while (!flow.isFinish()) {
+      while (!flow.isFinish() && !this.surrendered) {
         await game.play();
         game = flow.nextChapter(game);
       }
@@ -29,5 +30,8 @@ export default class Countdown {
     } catch (err) {
       return Promise.reject(err);
     }
+  }
+  surrender(): void {
+    this.surrendered = true;
   }
 }
