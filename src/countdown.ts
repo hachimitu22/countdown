@@ -3,6 +3,7 @@ import GameFlow from './flow/game-flow';
 import ITimer from './timer/ITimer';
 import IRandom from './random/IRandom';
 import ISound from './sound/ISound';
+import { chapterRatioMap } from './ratio/chapter-ratio-map'
 
 export default class Countdown {
   constructor(
@@ -16,6 +17,7 @@ export default class Countdown {
         this.timer,
         this.random,
         this.sound,
+        chapterRatioMap,
       );
       let game: IChapter = flow.firstChapter();
 
