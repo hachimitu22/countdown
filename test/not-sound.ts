@@ -9,4 +9,7 @@ export default class NotSound implements ISound {
     this.histories.push(filename);
     return Promise.resolve();
   }
+  stop(): void {
+    this.histories.push('stop');
+  }
 }

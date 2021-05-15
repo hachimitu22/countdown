@@ -19,4 +19,17 @@ describe('Sound', () => {
       .then(() => done())
       .catch(done);
   }).timeout(5000);
+
+  it('音声が中断される', (done) => {
+    const sound = new Sound('./voice');
+    sound.play('finish.wav')
+      .then(() => {
+        return new Promise((resolve) => setTimeout(resolve, 500));
+      })
+      .then(() => {
+        sound.stop();
+        done();
+      })
+      .catch(done);
+  }).timeout(5000);
 });

@@ -6,6 +6,7 @@ import StopChapter from '../src/chapter/stop-chapter';
 import FixRandom from './fix-random';
 import NotSound from './not-sound';
 import NotTimer from './not-timer';
+import { chapterRatioMap } from '../src/ratio/chapter-ratio-map';
 
 describe('GameFlow', () => {
   it('NormalChapterからStopChapterへ遷移する', async () => {
@@ -16,23 +17,28 @@ describe('GameFlow', () => {
       timer,
       random,
       sound,
+      chapterRatioMap,
     );
 
-    const game: IChapter = flow.firstChapter();
-    chai.expect(game).to.instanceOf(NormalChapter);
+    const firstChapter: IChapter = flow.firstChapter();
+    chai.expect(firstChapter).to.instanceOf(NormalChapter);
 
     try {
+      // 10 -> 1
       for (let i = 0; i < 9; i++){
         random.add(1);
-        await game.play();
+        await firstChapter.play();
       }
-      random.add(1);
-      chai.expect(flow.nextChapter(game)).to.instanceOf(NormalChapter);
+      chai.expect(flow.nextChapter(firstChapter)).to.instanceOf(NormalChapter);
 
+      // 1 -> 0
       random.add(1);
-      await game.play();
-      random.add(1);
-      chai.expect(flow.nextChapter(game)).to.instanceOf(StopChapter);
+      await firstChapter.play();
+
+      // next chapter
+      random.add(85);
+      const secondChapter = flow.nextChapter(firstChapter)
+      chai.expect(flow.nextChapter(secondChapter)).to.instanceOf(StopChapter);
     } catch (err) {
       throw err;
     }
