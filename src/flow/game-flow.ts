@@ -29,6 +29,11 @@ export default class GameFlow {
       return currentGame;
     }
 
+    if(currentGame instanceof FinishChapter){
+      this.finished = true;
+      return currentGame;
+    }
+
     const table: RatioTable<string> | undefined = this.ratioTable.get(currentGame.constructor.name);
     if (table === undefined) {
       throw new Error(`${currentGame.constructor.name} ratio table not exist`);
