@@ -15,4 +15,7 @@ export default class Sound implements ISound {
       path: path,
     });
   }
+  stop(): void {
+    player.stop();
+  }
 }
