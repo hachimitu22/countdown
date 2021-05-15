@@ -18,8 +18,9 @@ export default class SkipChapter extends BaseChapter {
     return this.sound.play(`${this.current}.wav`)
       .then(() => {
         const waitSec = this.random.lot(5, 10);
-        this.timer.wait(waitSec);
-
+        return this.timer.wait(waitSec);
+      })
+      .then(() => {
         if (this.current >= 3) {
           const rand: number = this.random.lot(1, this.current);
 
@@ -35,6 +36,10 @@ export default class SkipChapter extends BaseChapter {
 
         return Promise.resolve();
       });
+  }
+  stop(): void {
+    this.sound.stop();
+    this.timer.stop();
   }
   isClear(): boolean {
     return this.cleared;

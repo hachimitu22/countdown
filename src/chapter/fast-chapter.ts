@@ -17,13 +17,18 @@ export default class FastChapter extends BaseChapter {
   play(): Promise<void> {
     return this.sound.play(`${this.current}.wav`)
       .then(() => {
-        this.timer.wait(1);
-
+        return this.timer.wait(1);
+      })
+      .then(() => {
         if (this.current > 0) this.current--;
         this.cleared = this.current <= 0;
 
         return Promise.resolve();
       });
+  }
+  stop(): void {
+    this.sound.stop();
+    this.timer.stop();
   }
   isClear(): boolean {
     return this.cleared;

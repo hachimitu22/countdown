@@ -18,13 +18,18 @@ export default class SlowChapter extends BaseChapter {
     return this.sound.play(`${this.current}.wav`)
       .then(() => {
         const waitSec = this.random.lot(10, 20);
-        this.timer.wait(waitSec);
-
+        return this.timer.wait(waitSec);
+      })
+      .then(() => {
         if (this.current > 0) this.current--;
         this.cleared = this.current <= 0;
 
         return Promise.resolve();
       });
+  }
+  stop(): void {
+    this.sound.stop();
+    this.timer.stop();
   }
   isClear(): boolean {
     return this.cleared;

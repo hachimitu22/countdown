@@ -18,6 +18,10 @@ export default class FinishChapter extends BaseChapter {
       return Promise.resolve();
     });
   }
+  stop(): void {
+    this.sound.stop();
+    this.timer.stop();
+  }
   isClear(): boolean {
     return this.cleared;
   }

@@ -12,11 +12,17 @@ export default class HoldChapter extends BaseChapter {
     super(timer, random, sound);
   }
   play(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      this.timer.wait(30);
+    return new Promise(async () => {
+      return this.timer.wait(30);
+    })
+    .then(() => {
       this.cleared = true;
-      resolve();
+      return Promise.resolve();
     });
+  }
+  stop(): void {
+    this.sound.stop();
+    this.timer.stop();
   }
   isClear(): boolean {
     return this.cleared;

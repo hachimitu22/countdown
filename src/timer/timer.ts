@@ -1,11 +1,24 @@
 import ITimer from './ITimer';
-import { performance } from 'perf_hooks';
 
 export default class Timer implements ITimer {
+  private waiting: boolean = false;
   constructor() { }
-  wait(sec: number): void {
-    const msStart: number = performance.now();
-    const msEnd: number = msStart + sec * 1000;
-    while (performance.now() < msEnd);
+  wait(sec: number): Promise<void> {
+    this.waiting = true;
+    let loopCount = sec * 10;
+
+    return new Promise<void>((resolve, reject) => {
+      const id = setInterval(() => {
+        loopCount--;
+        if (loopCount > 0 && this.waiting) {
+          return;
+        }
+        clearInterval(id);
+        resolve();
+      }, 100);
+    });
+  }
+  stop(): void {
+    this.waiting = false;
   }
 }
