@@ -7,24 +7,27 @@ import { chapterRatioMap } from './ratio/chapter-ratio-map'
 
 export default class Countdown {
   private surrendered: boolean = false;
+  private flow: GameFlow;
+  private chapter: IChapter;
   constructor(
     private timer: ITimer,
     private random: IRandom,
     private sound: ISound
-  ) { }
+  ) {
+    this.flow = new GameFlow(
+      this.timer,
+      this.random,
+      this.sound,
+      chapterRatioMap,
+    );
+    this.chapter = this.flow.firstChapter();
+  }
   async execute(): Promise<void> {
     try {
-      const flow: GameFlow = new GameFlow(
-        this.timer,
-        this.random,
-        this.sound,
-        chapterRatioMap,
-      );
-      let game: IChapter = flow.firstChapter();
 
-      while (!flow.isFinish() && !this.surrendered) {
-        await game.play();
-        game = flow.nextChapter(game);
+      while (!this.flow.isFinish() && !this.surrendered) {
+        await this.chapter.play();
+        this.chapter = this.flow.nextChapter(this.chapter);
       }
       return Promise.resolve();
     } catch (err) {
@@ -33,5 +36,6 @@ export default class Countdown {
   }
   surrender(): void {
     this.surrendered = true;
+    this.chapter.stop();
   }
 }
