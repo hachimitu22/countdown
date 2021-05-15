@@ -12,11 +12,15 @@ export default class FinishChapter extends BaseChapter {
     super(timer, random, sound);
   }
   play(): Promise<void> {
-    return this.sound.play(`0.wav`).then(() => {
-      this.cleared = true;
+    return this.sound.play(`0.wav`)
+      .then(() => {
+        return this.timer.wait(10);
+      })
+      .then(() => {
+        this.cleared = true;
 
-      return Promise.resolve();
-    });
+        return Promise.resolve();
+      });
   }
   stop(): void {
     this.sound.stop();
