@@ -1,5 +1,5 @@
 import * as chai from 'chai';
-import NormalChapter from '../src/chapter/normal-chapter';
+import NormalChapter from '../src/frontend/chapter/normal-chapter';
 import NotTimer from './not-timer';
 import FixRandom from './fix-random';
 import NotSound from './not-sound';

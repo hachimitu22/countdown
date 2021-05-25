@@ -1,5 +1,5 @@
 import * as chai from 'chai';
-import RatioRecord from '../src/ratio/ratio-record';
+import RatioRecord from '../src/frontend/ratio/ratio-record';
 
 describe('RatioRecord', () => {
   it('stringを値に持つレコードが作成される', async () => {

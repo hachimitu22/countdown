@@ -1,5 +1,5 @@
 import * as chai from 'chai';
-import Sound from '../src/sound/sound';
+import Sound from '../src/frontend/sound/sound';
 
 describe('Sound', () => {
   it('音声が再生される', (done) => {

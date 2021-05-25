@@ -1,5 +1,5 @@
 import * as chai from 'chai';
-import Timer from '../src/timer/timer';
+import Timer from '../src/frontend/timer/timer';
 import { performance } from 'perf_hooks';
 
 describe('Timer', () => {

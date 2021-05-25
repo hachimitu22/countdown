@@ -1,6 +1,6 @@
 import * as chai from 'chai';
-import RatioRecord from '../src/ratio/ratio-record';
-import RatioTable from '../src/ratio/ratio-table';
+import RatioRecord from '../src/frontend/ratio/ratio-record';
+import RatioTable from '../src/frontend/ratio/ratio-table';
 import FixRandom from './fix-random';
 
 describe('RatioTable', () => {

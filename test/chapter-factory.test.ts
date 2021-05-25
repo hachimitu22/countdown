@@ -1,7 +1,7 @@
 import * as chai from 'chai';
-import ChapterFactory from '../src/chapter/chapter-factory';
-import NormalChapter from '../src/chapter/normal-chapter';
-import Countdown from '../src/countdown';
+import ChapterFactory from '../src/frontend/chapter/chapter-factory';
+import NormalChapter from '../src/frontend/chapter/normal-chapter';
+import Countdown from '../src/frontend/countdown';
 import FixRandom from './fix-random';
 import NotSound from './not-sound';
 import NotTimer from './not-timer';
