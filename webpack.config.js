@@ -1,6 +1,6 @@
 module.exports = {
   mode: 'development',
-  target: 'node',
+  target: 'web',
   entry: './src/frontend/index.ts',
   output: {
     path: `${__dirname}/public`,
