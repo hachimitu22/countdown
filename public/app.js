@@ -10,16 +10,6 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./node_modules/node-wav-player/lib/wav-player.js":
-/*!********************************************************!*\
-  !*** ./node_modules/node-wav-player/lib/wav-player.js ***!
-  \********************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-eval("/* ------------------------------------------------------------------\r\n* node-wav-player - wav-player.js\r\n*\r\n* Copyright (c) 2018 - 2020, Futomi Hatano, All rights reserved.\r\n* Released under the MIT license\r\n* Date: 2020-10-27\r\n* ---------------------------------------------------------------- */\r\n\r\n\r\nconst mFs = __webpack_require__(/*! fs */ \"fs\");\r\nconst mSpawn = __webpack_require__(/*! child_process */ \"child_process\").spawn;\r\n\r\n/* ------------------------------------------------------------------\r\n* Constructor: WavPlayer()\r\n* ---------------------------------------------------------------- */\r\nconst WavPlayer = function () {\r\n\tthis._OS = process.platform;\r\n\tthis._proc = null;\r\n\tthis._called_stop = false;\r\n};\r\n\r\n/* ------------------------------------------------------------------\r\n* Method: request(params)\r\n* - params  | Object  | Required |\r\n*   - path  | String  | Required | Path of a wav file\r\n*   - sync  | Boolean | Optional | Default is `false`\r\n*   - loop  | Boolean | Optional | Default is `false`\r\n* ---------------------------------------------------------------- */\r\nWavPlayer.prototype.play = function (params) {\r\n\tthis._called_stop = false;\r\n\tlet promise = new Promise((resolve, reject) => {\r\n\t\tif (!params || typeof (params) !== 'object') {\r\n\t\t\treject(new Error('The `path` is required.'));\r\n\t\t\treturn;\r\n\t\t}\r\n\t\tlet path = '';\r\n\t\tif ('path' in params) {\r\n\t\t\tpath = params['path'];\r\n\t\t} else {\r\n\t\t\treject(new Error('The `path` is required.'));\r\n\t\t\treturn;\r\n\t\t}\r\n\t\tif (typeof (path) !== 'string' || path === '') {\r\n\t\t\treject(new Error('The `path` must be a non-empty string.'));\r\n\t\t\treturn;\r\n\t\t}\r\n\t\tif (!mFs.existsSync(path)) {\r\n\t\t\treject(new Error('The file of the `path` was not found.'));\r\n\t\t\treturn;\r\n\t\t}\r\n\r\n\t\tlet sync = false;\r\n\t\tif ('sync' in params) {\r\n\t\t\tsync = params['sync'];\r\n\t\t}\r\n\t\tif (typeof (sync) !== 'boolean') {\r\n\t\t\treject(new Error('The `sync` must be a boolean.'));\r\n\t\t\treturn;\r\n\t\t}\r\n\r\n\t\tlet loop = false;\r\n\t\tif ('loop' in params) {\r\n\t\t\tloop = params['loop'];\r\n\t\t}\r\n\t\tif (typeof (loop) !== 'boolean') {\r\n\t\t\treject(new Error('The `loop` must be a boolean.'));\r\n\t\t\treturn;\r\n\t\t}\r\n\t\tif (loop) {\r\n\t\t\tsync = false;\r\n\t\t}\r\n\r\n\t\tthis._play({\r\n\t\t\tpath: path,\r\n\t\t\tsync: sync,\r\n\t\t\tloop: loop\r\n\t\t}).then(() => {\r\n\t\t\tresolve();\r\n\t\t}).catch((error) => {\r\n\t\t\treject(error);\r\n\t\t});\r\n\t});\r\n\treturn promise;\r\n};\r\n\r\nWavPlayer.prototype._play = function (params) {\r\n\tlet promise = new Promise((resolve, reject) => {\r\n\t\tlet path = params['path'];\r\n\t\tlet loop = params['loop'];\r\n\t\tlet sync = params['sync'];\r\n\t\tlet os = this._OS;\r\n\t\tif (os === 'win32') {\r\n\t\t\tthis._proc = mSpawn('powershell', [\r\n\t\t\t\t'-c',\r\n\t\t\t\t'(New-Object System.Media.SoundPlayer \"' + path + '\").PlaySync();'\r\n\t\t\t]);\r\n\t\t\tthis._proc.stdin.end();\r\n\t\t} else if (os === 'darwin') {\r\n\t\t\tthis._proc = mSpawn('afplay', [path]);\r\n\t\t} else if (os === 'linux') {\r\n\t\t\tthis._proc = mSpawn('aplay', [path]);\r\n\t\t} else {\r\n\t\t\treject(new Error('The wav file can not be played on this platform.'));\r\n\t\t}\r\n\r\n\t\tlet timer = null;\r\n\t\tif (!sync) {\r\n\t\t\ttimer = setTimeout(() => {\r\n\t\t\t\tif(!loop) {\r\n\t\t\t\t\tthis._proc.removeAllListeners('close');\r\n\t\t\t\t}\r\n\t\t\t\tresolve();\r\n\t\t\t}, 500);\r\n\t\t}\r\n\t\t\r\n\t\tthis._proc.on('error', function(err) {\r\n\t\t\treject(new Error('Failed to play the wav file (' + err + ')'));\r\n\t\t});\r\n\r\n\t\tthis._proc.on('close', (code) => {\r\n\t\t\tif (timer) {\r\n\t\t\t\tclearTimeout(timer);\r\n\t\t\t}\r\n\t\t\tif (this._called_stop === true) {\r\n\t\t\t\tresolve();\r\n\t\t\t} else {\r\n\t\t\t\tif (code === 0) {\r\n\t\t\t\t\tif (sync) {\r\n\t\t\t\t\t\tresolve();\r\n\t\t\t\t\t} else if (loop) {\r\n\t\t\t\t\t\tthis._play(params);\r\n\t\t\t\t\t}\r\n\t\t\t\t} else {\r\n\t\t\t\t\treject(new Error('Failed to play the wav file (' + code + ')'));\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t});\r\n\t});\r\n\treturn promise;\r\n};\r\n\r\nWavPlayer.prototype.stop = function () {\r\n\tthis._called_stop = true;\r\n\tthis._proc.removeAllListeners('close');\r\n\tif (this._proc) {\r\n\t\tthis._proc.kill();\r\n\t}\r\n};\r\n\r\nmodule.exports = new WavPlayer();\r\n\n\n//# sourceURL=webpack://countdown/./node_modules/node-wav-player/lib/wav-player.js?");
-
-/***/ }),
-
 /***/ "./src/frontend/chapter/base-chapter.ts":
 /*!**********************************************!*\
   !*** ./src/frontend/chapter/base-chapter.ts ***!
@@ -146,7 +136,7 @@ eval("\r\nvar __importDefault = (this && this.__importDefault) || function (mod)
   \*******************************/
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
-eval("\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nvar countdown_1 = __importDefault(__webpack_require__(/*! ./countdown */ \"./src/frontend/countdown.ts\"));\r\nvar random_1 = __importDefault(__webpack_require__(/*! ./random/random */ \"./src/frontend/random/random.ts\"));\r\nvar sound_1 = __importDefault(__webpack_require__(/*! ./sound/sound */ \"./src/frontend/sound/sound.ts\"));\r\nvar timer_1 = __importDefault(__webpack_require__(/*! ./timer/timer */ \"./src/frontend/timer/timer.ts\"));\r\nvar readline_1 = __importDefault(__webpack_require__(/*! readline */ \"readline\"));\r\nvar countdown = new countdown_1.default(new timer_1.default(), new random_1.default(), new sound_1.default('./voice/'));\r\nvar input = readline_1.default.createInterface(process.stdin, process.stdout);\r\nvar start = Date.now();\r\ncountdown.execute()\r\n    .then(function () {\r\n    countdown.gameOver();\r\n})\r\n    .catch(function (err) {\r\n    console.log(err);\r\n})\r\n    .finally(function () {\r\n    input.close();\r\n});\r\ninput.once('line', function (_) {\r\n    input.close();\r\n    countdown.surrender();\r\n    console.log('surrender');\r\n});\r\n\n\n//# sourceURL=webpack://countdown/./src/frontend/index.ts?");
+eval("\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nvar countdown_1 = __importDefault(__webpack_require__(/*! ./countdown */ \"./src/frontend/countdown.ts\"));\r\nvar random_1 = __importDefault(__webpack_require__(/*! ./random/random */ \"./src/frontend/random/random.ts\"));\r\nvar audio_sound_1 = __importDefault(__webpack_require__(/*! ./sound/audio-sound */ \"./src/frontend/sound/audio-sound.ts\"));\r\nvar timer_1 = __importDefault(__webpack_require__(/*! ./timer/timer */ \"./src/frontend/timer/timer.ts\"));\r\nwindow.onload = function () {\r\n    var mainElement = document.getElementById('main');\r\n    var audioElement = document.getElementById('voice');\r\n    if (!mainElement) {\r\n        console.log('not exist id main');\r\n        return;\r\n    }\r\n    if (!audioElement) {\r\n        console.log('not exist id voice');\r\n        return;\r\n    }\r\n    if (!(audioElement instanceof HTMLAudioElement)) {\r\n        console.log('id voice is not HTMLAudioElement');\r\n        return;\r\n    }\r\n    mainElement.addEventListener('click', (function () {\r\n        var fn = function () {\r\n            var countdown = new countdown_1.default(new timer_1.default(), new random_1.default(), new audio_sound_1.default('./voice/', audioElement));\r\n            countdown.execute()\r\n                .then(function () {\r\n                countdown.gameOver();\r\n            })\r\n                .catch(function (err) {\r\n                console.log(err);\r\n            })\r\n                .finally(function () {\r\n            });\r\n            mainElement.removeEventListener('click', fn);\r\n            var fn2 = function () {\r\n                countdown.surrender();\r\n                mainElement.removeEventListener('click', fn2);\r\n                mainElement.addEventListener('click', fn);\r\n            };\r\n            mainElement.addEventListener('click', fn2);\r\n        };\r\n        return fn;\r\n    })());\r\n};\r\n\n\n//# sourceURL=webpack://countdown/./src/frontend/index.ts?");
 
 /***/ }),
 
@@ -190,13 +180,13 @@ eval("\r\nvar __importDefault = (this && this.__importDefault) || function (mod)
 
 /***/ }),
 
-/***/ "./src/frontend/sound/sound.ts":
-/*!*************************************!*\
-  !*** ./src/frontend/sound/sound.ts ***!
-  \*************************************/
-/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+/***/ "./src/frontend/sound/audio-sound.ts":
+/*!*******************************************!*\
+  !*** ./src/frontend/sound/audio-sound.ts ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, exports) => {
 
-eval("\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nvar node_wav_player_1 = __importDefault(__webpack_require__(/*! node-wav-player */ \"./node_modules/node-wav-player/lib/wav-player.js\"));\r\nvar Sound = /** @class */ (function () {\r\n    function Sound(directory) {\r\n        this.directory = directory;\r\n        if (directory.charAt(directory.length - 1) !== '/') {\r\n            this.directory += '/';\r\n        }\r\n    }\r\n    Sound.prototype.play = function (filename) {\r\n        var path = this.directory + filename;\r\n        return node_wav_player_1.default.play({\r\n            path: path,\r\n        });\r\n    };\r\n    Sound.prototype.stop = function () {\r\n        node_wav_player_1.default.stop();\r\n    };\r\n    return Sound;\r\n}());\r\nexports.default = Sound;\r\n\n\n//# sourceURL=webpack://countdown/./src/frontend/sound/sound.ts?");
+eval("\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nvar AudioSound = /** @class */ (function () {\r\n    function AudioSound(directory, audioElement) {\r\n        this.audioElement = audioElement;\r\n        this.directory = directory;\r\n        if (directory.charAt(directory.length - 1) !== '/') {\r\n            this.directory += '/';\r\n        }\r\n    }\r\n    AudioSound.prototype.play = function (filename) {\r\n        var _this = this;\r\n        var path = this.directory + filename;\r\n        return new Promise(function (resolve, reject) {\r\n            _this.audioElement.src = path;\r\n            _this.audioElement.load();\r\n            _this.audioElement.play();\r\n            resolve();\r\n        });\r\n    };\r\n    AudioSound.prototype.stop = function () {\r\n        this.audioElement.pause();\r\n    };\r\n    return AudioSound;\r\n}());\r\nexports.default = AudioSound;\r\n\n\n//# sourceURL=webpack://countdown/./src/frontend/sound/audio-sound.ts?");
 
 /***/ }),
 
@@ -207,36 +197,6 @@ eval("\r\nvar __importDefault = (this && this.__importDefault) || function (mod)
 /***/ ((__unused_webpack_module, exports) => {
 
 eval("\r\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\r\nvar Timer = /** @class */ (function () {\r\n    function Timer() {\r\n        this.waiting = false;\r\n    }\r\n    Timer.prototype.wait = function (sec) {\r\n        var _this = this;\r\n        this.waiting = true;\r\n        var loopCount = sec * 10;\r\n        return new Promise(function (resolve, reject) {\r\n            var id = setInterval(function () {\r\n                loopCount--;\r\n                if (loopCount > 0 && _this.waiting) {\r\n                    return;\r\n                }\r\n                clearInterval(id);\r\n                resolve();\r\n            }, 100);\r\n        });\r\n    };\r\n    Timer.prototype.stop = function () {\r\n        this.waiting = false;\r\n    };\r\n    return Timer;\r\n}());\r\nexports.default = Timer;\r\n\n\n//# sourceURL=webpack://countdown/./src/frontend/timer/timer.ts?");
-
-/***/ }),
-
-/***/ "child_process":
-/*!********************************!*\
-  !*** external "child_process" ***!
-  \********************************/
-/***/ ((module) => {
-
-module.exports = require("child_process");;
-
-/***/ }),
-
-/***/ "fs":
-/*!*********************!*\
-  !*** external "fs" ***!
-  \*********************/
-/***/ ((module) => {
-
-module.exports = require("fs");;
-
-/***/ }),
-
-/***/ "readline":
-/*!***************************!*\
-  !*** external "readline" ***!
-  \***************************/
-/***/ ((module) => {
-
-module.exports = require("readline");;
 
 /***/ })
 
