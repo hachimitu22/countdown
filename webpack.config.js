@@ -1,9 +1,9 @@
 module.exports = {
   mode: 'development',
-  target: 'node',
-  entry: './src/index.ts',
+  target: 'web',
+  entry: './src/frontend/index.ts',
   output: {
-    path: `${__dirname}/bin`,
+    path: `${__dirname}/public`,
     filename: 'app.js'
   },
   module: {

@@ -1,4 +1,4 @@
-import IRandom from '../src/random/IRandom';
+import IRandom from '../src/frontend/random/IRandom';
 
 export default class FixRandom implements IRandom {
   private fixValues: number[];

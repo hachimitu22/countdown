@@ -1,0 +1,14 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0px;
+    background: linear-gradient(#000000, #400040);
+}
+
+#rule {
+    color: white;
+}
+#main {
+    width: 100%;
+    height: 100%;
+}

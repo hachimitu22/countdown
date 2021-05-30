@@ -1,12 +1,12 @@
 import * as chai from 'chai';
-import GameFlow from '../src/flow/game-flow';
-import IChapter from '../src/chapter/IChapter';
-import NormalChapter from '../src/chapter/normal-chapter';
-import StopChapter from '../src/chapter/stop-chapter';
+import GameFlow from '../src/frontend/flow/game-flow';
+import IChapter from '../src/frontend/chapter/IChapter';
+import NormalChapter from '../src/frontend/chapter/normal-chapter';
+import StopChapter from '../src/frontend/chapter/stop-chapter';
 import FixRandom from './fix-random';
 import NotSound from './not-sound';
 import NotTimer from './not-timer';
-import { chapterRatioMap } from '../src/ratio/chapter-ratio-map';
+import { chapterRatioMap } from '../src/frontend/ratio/chapter-ratio-map';
 
 describe('GameFlow', () => {
   it('NormalChapterからStopChapterへ遷移する', async () => {

@@ -1,4 +1,4 @@
-import ISound from '../src/sound/ISound';
+import ISound from '../src/frontend/sound/ISound';
 
 export default class NotSound implements ISound {
   readonly histories: string[];

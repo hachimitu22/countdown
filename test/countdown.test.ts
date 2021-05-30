@@ -1,5 +1,5 @@
 import * as chai from 'chai';
-import Countdown from '../src/countdown';
+import Countdown from '../src/frontend/countdown';
 import FixRandom from './fix-random';
 import NotSound from './not-sound';
 import NotTimer from './not-timer';

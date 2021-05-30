@@ -1,4 +1,4 @@
-import ITimer from '../src/timer/ITimer';
+import ITimer from '../src/frontend/timer/ITimer';
 
 export default class NotTimer implements ITimer {
   readonly histories: string[];
