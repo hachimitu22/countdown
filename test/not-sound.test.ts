@@ -15,4 +15,9 @@ describe('NotSound', () => {
       })
       .catch(done);
   });
+  it('stopを1回呼び出し履歴に"stop"が1つ存在する', () => {
+    const sound = new NotSound();
+    sound.stop();
+    chai.assert.deepEqual(sound.histories, ['stop']);
+  });
 });

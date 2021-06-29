@@ -1,12 +1,15 @@
-import ITimer from '../src/timer/ITimer';
+import ITimer from '../src/frontend/timer/ITimer';
 
 export default class NotTimer implements ITimer {
-  readonly histories: number[];
+  readonly histories: string[];
   constructor() {
     this.histories = [];
   }
-  wait(sec: number): void{
-    this.histories.push(sec);
-    return;
+  wait(sec: number): Promise<void> {
+    this.histories.push(sec.toString());
+    return Promise.resolve();
+  }
+  stop(): void {
+    this.histories.push('stop');
   }
 }

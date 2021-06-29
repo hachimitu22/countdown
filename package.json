@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack",
     "start": "node bin/app.js",
-    "test": "set TS_NODE_FILES=true && .\\node_modules\\.bin\\mocha -r ts-node/register \"test/**/*.ts\""
+    "test": "set TS_NODE_FILES=true && .\\node_modules\\.bin\\mocha -r ts-node/register \"test/**/*.ts\"",
+    "test-github": "set TS_NODE_FILES=true && .\\node_modules\\.bin\\mocha -r ts-node/register \"test/**/*.ts\" --grep \"^(?!Sound)\""
   },
   "author": "",
   "license": "MIT",
